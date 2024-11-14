@@ -66,6 +66,7 @@ func (serv *MeetupServer) Run() error {
 }
 
 func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPacket) error {
+	log.Println(addr.String())
 	packet.GlobalAddr = addr.(*net.UDPAddr)
 	serv.clients[packet.Name] = packet
 	
