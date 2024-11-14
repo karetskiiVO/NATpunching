@@ -1,4 +1,4 @@
-module main
+module "github.com/karetskiiVO/NATpunching/server"
 
 go 1.22.6
 
