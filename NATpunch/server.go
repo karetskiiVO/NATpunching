@@ -15,6 +15,9 @@ type MeetupServer struct {
 
 func NewMeetupServer(port string) (*MeetupServer, error) {
 	conn, err := net.ListenPacket("udp", ":"+port)
+
+	log.Println(conn.LocalAddr().String())
+
 	if err != nil {
 		log.Fatal(err)
 	}
