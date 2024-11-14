@@ -22,7 +22,14 @@ type Client struct {
 }
 
 func NewClient(name, port, serverAddr string) (*Client, error) {
-	conn, err := net.ListenPacket("udp", ":"+port)
+	resport := ""
+	if port != "" {
+		resport = ":"+port 
+	} else {
+		resport = "0"
+	}
+
+	conn, err := net.ListenPacket("udp", resport)
 
 	fmt.Println(conn.LocalAddr().String())
 
