@@ -66,11 +66,10 @@ func (serv *MeetupServer) Run() error {
 }
 
 func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPacket) error {
-	log.Printf("Client[%v] registration at %v, local addres %v", packet.Name, packet.GlobalAddr, packet.LocalAddr)
-
 	packet.GlobalAddr = addr.(*net.UDPAddr)
 	serv.clients[packet.Name] = packet
-
+	
+	log.Printf("Client[%v] registration at %v, local addres %v", packet.Name, packet.GlobalAddr, packet.LocalAddr)
 	outputBuffer, err := json.Marshal(packet)
 	if err != nil {
 		return err
