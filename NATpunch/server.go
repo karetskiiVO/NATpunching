@@ -52,6 +52,7 @@ func (serv *MeetupServer) Run() error {
 
 		// проверить бы
 		if packet.LocalAddr.String() == EmptyAddress.String() {
+			log.Println(">>>>>>>>>>", addr.String())
 			err = serv.resolveRequest(addr, packet)
 			if err != nil {
 				log.Print(err)
@@ -66,8 +67,6 @@ func (serv *MeetupServer) Run() error {
 }
 
 func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPacket) error {
-	log.Println(addr.String())
-	packet.GlobalAddr = addr.(*net.UDPAddr)
 	serv.clients[packet.Name] = packet
 	
 	log.Printf("Client[%v] registration at %v, local addres %v", packet.Name, packet.GlobalAddr, packet.LocalAddr)
