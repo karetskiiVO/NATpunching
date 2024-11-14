@@ -51,13 +51,13 @@ func (serv *MeetupServer) Run() error {
 		log.Printf("from %v: %v", addr.String(), packet)
 
 		// проверить бы
-		if packet.LocalAddr.String() == EmptyAddress.String() {
-			log.Println(">>>>>>>>>>", addr.String())
+		if packet.GlobalAddr.String() == EmptyAddress.String() {
 			err = serv.resolveRequest(addr, packet)
 			if err != nil {
 				log.Print(err)
 			}
 		} else {
+			log.Println(">>>>>>>>>>", addr.String())
 			err = serv.resolveRegistration(addr, packet)
 			if err != nil {
 				log.Print(err)
@@ -68,7 +68,7 @@ func (serv *MeetupServer) Run() error {
 
 func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPacket) error {
 	serv.clients[packet.Name] = packet
-	
+
 	log.Printf("Client[%v] registration at %v, local addres %v", packet.Name, packet.GlobalAddr, packet.LocalAddr)
 	outputBuffer, err := json.Marshal(packet)
 	if err != nil {
