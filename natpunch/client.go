@@ -47,6 +47,8 @@ func (cl *Client) Registrate() (bool, error) {
 	}
 	packet.LocalAddr = cl.conn.LocalAddr().(*net.UDPAddr)
 
+	fmt.Println(packet.LocalAddr)
+
 	msg, err := json.Marshal(packet)
 	if err != nil {
 		return false, err
@@ -57,10 +59,6 @@ func (cl *Client) Registrate() (bool, error) {
 	}
 
 	reply := make([]byte, 1024)
-	err = cl.conn.SetReadDeadline(time.Now().Add(20 * time.Millisecond))
-	if err != nil {
-		return false, err
-	}
 	_, addr, err := cl.conn.ReadFrom(reply)
 	if err != nil {
 		return false, err
@@ -85,8 +83,6 @@ func (cl *Client) Finalize() error {
 
 func (cl *Client) Run() error {
 	scanner := bufio.NewScanner(os.Stdin)
-
-	cl.conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 
 	go cl.demonListner()
 
@@ -172,9 +168,9 @@ func (cl *Client) demonListner() {
 
 func (cl *Client) punch(username string) (*net.UDPAddr, error) {
 	packet := NATPunchigPacket{
-		Name: username + "@" + cl.name,
+		Name:       username + "@" + cl.name,
 		GlobalAddr: EmptyAddress,
-		LocalAddr: EmptyAddress,
+		LocalAddr:  EmptyAddress,
 	}
 
 	punchStarter, _ := json.Marshal(packet)
