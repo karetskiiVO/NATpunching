@@ -22,12 +22,19 @@ type Client struct {
 }
 
 func NewClient(name, port, serverAddr string) (*Client, error) {
-	resport := ""
+	resport := ":0"
 	if port != "" {
 		resport = ":"+port 
 	}
 
-	conn, err := net.ListenPacket("udp", "127.0.0.1"+resport)
+	ipres, err := net.Dial("udp", serverAddr)
+	if err != nil {
+		return nil, err
+	}
+	ipstr := ipres.LocalAddr().(*net.UDPAddr).IP.String()
+	ipres.Close()
+
+	conn, err := net.ListenPacket("udp", ipstr+resport)
 
 	fmt.Println(conn.LocalAddr().String())
 
