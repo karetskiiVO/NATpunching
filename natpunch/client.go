@@ -25,11 +25,9 @@ func NewClient(name, port, serverAddr string) (*Client, error) {
 	resport := ""
 	if port != "" {
 		resport = ":"+port 
-	} else {
-		resport = "0"
 	}
 
-	conn, err := net.ListenPacket("udp", resport)
+	conn, err := net.ListenPacket("udp", "127.0.0.1"+resport)
 
 	fmt.Println(conn.LocalAddr().String())
 
