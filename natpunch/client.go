@@ -23,6 +23,9 @@ type Client struct {
 
 func NewClient(name, port, serverAddr string) (*Client, error) {
 	conn, err := net.ListenPacket("udp", ":"+port)
+
+	fmt.Println(conn.LocalAddr().String())
+
 	if err != nil {
 		return nil, err
 	}
@@ -46,8 +49,6 @@ func (cl *Client) Registrate() (bool, error) {
 		GlobalAddr: EmptyAddress,
 	}
 	packet.LocalAddr = cl.conn.LocalAddr().(*net.UDPAddr)
-
-	fmt.Println(packet.LocalAddr)
 
 	msg, err := json.Marshal(packet)
 	if err != nil {
