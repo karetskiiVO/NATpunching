@@ -24,7 +24,7 @@ type Client struct {
 func NewClient(name, port, serverAddr string) (*Client, error) {
 	resport := ":0"
 	if port != "" {
-		resport = ":"+port 
+		resport = ":" + port
 	}
 
 	ipres, err := net.Dial("udp", serverAddr)
@@ -48,11 +48,15 @@ func NewClient(name, port, serverAddr string) (*Client, error) {
 	}
 
 	return &Client{
-		name:    name,
-		conn:    conn,
-		server:  server,
-		clients: make(map[string]*net.UDPAddr),
+		name:      name,
+		conn:      conn,
+		server:    server,
+		clients:   make(map[string]*net.UDPAddr),
 		clientsMu: &sync.RWMutex{},
+
+		selfPacket: NATPunchigPacket{
+			Name: name,
+		},
 	}, nil
 }
 
@@ -76,9 +80,6 @@ func (cl *Client) Registrate() (bool, error) {
 	_, addr, err := cl.conn.ReadFrom(reply)
 	if err != nil {
 		return false, err
-	}
-	if addr.String() != cl.conn.LocalAddr().String() {
-		return false, nil
 	}
 
 	err = json.Unmarshal(reply, &packet)
