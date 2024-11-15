@@ -148,6 +148,8 @@ func (cl *Client) demonListner() {
 			continue
 		}
 
+		fmt.Println(string(buf[:n]))
+
 		var packet NATPunchigPacket
 		err = json.Unmarshal(buf[:n], &packet)
 		switch {
