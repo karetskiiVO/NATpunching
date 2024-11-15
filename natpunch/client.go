@@ -77,7 +77,7 @@ func (cl *Client) Registrate() (bool, error) {
 	}
 
 	reply := make([]byte, 1024)
-	_, addr, err := cl.conn.ReadFrom(reply)
+	_, _, err = cl.conn.ReadFrom(reply)
 	if err != nil {
 		return false, err
 	}
