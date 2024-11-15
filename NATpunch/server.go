@@ -83,7 +83,7 @@ func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPa
 
 func (serv *MeetupServer) resolveRequest(addr net.Addr, packet NATPunchigPacket) error {
 	names := strings.Split(packet.Name, "@")
-	if len(names) != 0 {
+	if len(names) != 2 {
 		return fmt.Errorf("unrecognized name: %v", packet.Name)
 	}
 
