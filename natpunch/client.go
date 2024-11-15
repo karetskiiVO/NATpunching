@@ -77,12 +77,12 @@ func (cl *Client) Registrate() (bool, error) {
 	}
 
 	reply := make([]byte, 1024)
-	_, _, err = cl.conn.ReadFrom(reply)
+	n, _, err := cl.conn.ReadFrom(reply)
 	if err != nil {
 		return false, err
 	}
 
-	err = json.Unmarshal(reply, &packet)
+	err = json.Unmarshal(reply[:n], &packet)
 	if err != nil {
 		return false, err
 	}
