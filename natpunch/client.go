@@ -114,7 +114,7 @@ func (cl *Client) Run() error {
 		var destAddr *net.UDPAddr
 		cl.clientsMu.RLock()
 		destAddr, ok := cl.clients[destname]
-		cl.clientsMu.Unlock()
+		cl.clientsMu.RUnlock()
 
 		if !ok {
 			var err error
