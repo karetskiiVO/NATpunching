@@ -16,8 +16,6 @@ type MeetupServer struct {
 func NewMeetupServer(port string) (*MeetupServer, error) {
 	conn, err := net.ListenPacket("udp", ":"+port)
 
-	log.Println(conn.LocalAddr().String())
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -57,7 +55,6 @@ func (serv *MeetupServer) Run() error {
 				log.Print(err)
 			}
 		} else {
-			log.Printf(">>>>>>>>>> %v", addr.String())
 			err = serv.resolveRegistration(addr, packet)
 			if err != nil {
 				log.Print(err)
@@ -67,6 +64,7 @@ func (serv *MeetupServer) Run() error {
 }
 
 func (serv *MeetupServer) resolveRegistration(addr net.Addr, packet NATPunchigPacket) error {
+	packet.GlobalAddr = addr.(*net.UDPAddr)
 	serv.clients[packet.Name] = packet
 
 	log.Printf("Client[%v] registration at %v, local addres %v", packet.Name, packet.GlobalAddr, packet.LocalAddr)
