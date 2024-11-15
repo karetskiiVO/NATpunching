@@ -16,7 +16,7 @@ type Client struct {
 	conn   net.PacketConn
 	server net.Addr
 
-	clientsMu  sync.RWMutex
+	clientsMu  *sync.RWMutex
 	clients    map[string]*net.UDPAddr
 	selfPacket NATPunchigPacket
 }
@@ -52,6 +52,7 @@ func NewClient(name, port, serverAddr string) (*Client, error) {
 		conn:    conn,
 		server:  server,
 		clients: make(map[string]*net.UDPAddr),
+		clientsMu: &sync.RWMutex{},
 	}, nil
 }
 
