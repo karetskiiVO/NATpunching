@@ -191,7 +191,7 @@ func (cl *Client) punch(username string) (*net.UDPAddr, error) {
 	}
 
 	punchStarter, _ := json.Marshal(packet)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 3; i++ {
 		cl.conn.WriteTo(punchStarter, cl.server)
 
 		time.Sleep(20 * time.Millisecond)

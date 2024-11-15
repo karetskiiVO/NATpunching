@@ -49,7 +49,7 @@ func (serv *MeetupServer) Run() error {
 		log.Printf("from %v: %v", addr.String(), packet)
 
 		// проверить бы
-		if packet.LocalAddr.String() == EmptyAddress.String() {
+		if strings.Contains(packet.Name, "@") {
 			err = serv.resolveRequest(addr, packet)
 			if err != nil {
 				log.Print(err)
