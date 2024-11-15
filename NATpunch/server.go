@@ -57,7 +57,7 @@ func (serv *MeetupServer) Run() error {
 				log.Print(err)
 			}
 		} else {
-			log.Println(">>>>>>>>>>", addr.String())
+			log.Printf(">>>>>>>>>> %v", addr.String())
 			err = serv.resolveRegistration(addr, packet)
 			if err != nil {
 				log.Print(err)
