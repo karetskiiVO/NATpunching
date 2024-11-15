@@ -51,7 +51,7 @@ func (serv *MeetupServer) Run() error {
 		log.Printf("from %v: %v", addr.String(), packet)
 
 		// проверить бы
-		if packet.GlobalAddr.String() == EmptyAddress.String() {
+		if packet.LocalAddr.String() == EmptyAddress.String() {
 			err = serv.resolveRequest(addr, packet)
 			if err != nil {
 				log.Print(err)
