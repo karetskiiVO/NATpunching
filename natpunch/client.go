@@ -36,8 +36,6 @@ func NewClient(name, port, serverAddr string) (*Client, error) {
 
 	conn, err := net.ListenPacket("udp", ipstr+resport)
 
-	fmt.Println(conn.LocalAddr().String())
-
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +124,10 @@ func (cl *Client) Run() error {
 			}
 		}
 
-		_, err := cl.conn.WriteTo(append([]byte(cl.name), buffer[delim+1:]...), destAddr)
+		builder := &bytes.Buffer{}
+		fmt.Fprintf(builder, "%v: %v\n", cl.name, string(buffer[delim+1:]))
+
+		_, err := cl.conn.WriteTo(builder.Bytes(), destAddr)
 		if err != nil {
 			fmt.Println(err)
 			continue
