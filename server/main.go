@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/karetskiiVO/NATpunching/natpunch"
 	"github.com/jessevdk/go-flags"
+	"github.com/karetskiiVO/NATpunching/natpunch"
 )
 
 func main() {
